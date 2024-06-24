@@ -1,21 +1,11 @@
 public class UserTester {
     public static void main(String[] args) {
-        UserTester();
-    }
-    public static String UserTester(){
-        int i;
-        String clearPassword = "TREVERJK";
-        String key = "EMILY";
+        User defaultUser = new User();
+        System.out.println("Default User: " + defaultUser);
 
-        String encryptedPassword = "";
-    
-            for(i=0; i<clearPassword.length(); i++){
-                int x = (clearPassword.charAt(i) + key.charAt(i)) % 26;
-                x += 'A';
-                encryptedPassword += (char)(x);
-            }
-            
-            return encryptedPassword;
-        }
+        User parameterizedUser = new User("Trever", "password", "house");
+        
+        System.out.println("Parameterized User: " + parameterizedUser.getEncryptedPassword());
 
     }
+}

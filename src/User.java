@@ -20,52 +20,57 @@ public class User {
     }
 
     public String getUsername(){
-
+        return username;
     }
 
     public String getClearPassword(){
-        
+        return clearPassword;
     }
 
     public String getEncryptedPassword(){
-        
-    }
-
-    public String getKey(){
-        
-    }
-
-    public String setUsername(){
-
-    }
-
-    public String setClearPassword(){
-        
-    }
-
-    public String setEncryptedPassword(){
-        
-    }
-
-    public String setKey(){
-        
-    }
-
-    private String encrypt(String clearPassword, String key){
-        int i;
-        String encryptedPassword;
-        encryptedPassword = "";
-
-        for(i=0; i<clearPassword.length(); i++){
-            int x = (clearPassword.charAt(i) + key.charAt(i)) % 26;
-            x += 'A';
-            encryptedPassword += (char)(x);
-        }
-        
         return encryptedPassword;
     }
 
-    private String toString(){
-        
+    public String getKey(){
+        return key;
+    }
+
+    public void setUsername(String username){
+        this.username = username;
+    }
+
+    public void setClearPassword(String clearPassword){
+        this.clearPassword = clearPassword;
+    }
+
+    public void setEncryptedPassword(String encryptedPassword){
+        this.encryptedPassword = encryptedPassword;
+    }
+
+    public void setKey(String key){
+        this.key = key;
+    }
+
+    private String encrypt(String clearPassword, String key) {
+        StringBuilder encrypted = new StringBuilder();
+        int keyLength = key.length();
+        int asciiStart = 33;
+        int asciiEnd = 122;
+        int range = asciiEnd - asciiStart + 1;
+
+        for (int i = 0; i < clearPassword.length(); i++) {
+            char clearChar = clearPassword.charAt(i);
+            char keyChar = key.charAt(i % keyLength);
+            int clearIndex = clearChar - asciiStart;
+            int keyIndex = keyChar - asciiStart;
+            char encryptedChar = (char) (asciiStart + (clearIndex + keyIndex) % range);
+            encrypted.append(encryptedChar);
+        }
+
+        return encrypted.toString();
+    }
+
+    public String toString() {
+        return username + "\t" + encryptedPassword + "\t" + clearPassword + "\t" + key;
     }
 }
