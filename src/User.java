@@ -4,17 +4,24 @@ public class User {
     private String encryptedPassword;
     private String key;
 
+    /* Default constructor:
+        - sets all fields to the empty String (“”) 
+    */
     public User(){
-        this.username = "";
-        this.clearPassword = "";
-        this.encryptedPassword = "";
-        this.key = "";
+        setUsername("");
+        setKey("");
+        setClearPassword("");
     
     }
+    /* Parameterized constructors: 
+        - takes in the username, clearPassword and the key
+        - calls the private method encrypt to encrypt the clearPassword using the Vigenere Cypher
+    */
     public User(String username, String clearPassword, String key){
-        this.username = username;
-        this.clearPassword = clearPassword;
-        this.key = key;
+        setUsername(username);
+        setKey(key);
+        setClearPassword(clearPassword);
+
 
         this.encryptedPassword = encrypt(clearPassword, key);
     }
@@ -23,8 +30,17 @@ public class User {
         return username;
     }
 
+    public void setUsername(String username){
+        this.username = username;
+    }
+
     public String getClearPassword(){
         return clearPassword;
+    }
+
+    public void setClearPassword(String clearPassword){
+        this.clearPassword = clearPassword;
+        this.encryptedPassword = encrypt(clearPassword, getKey());
     }
 
     public String getEncryptedPassword(){
@@ -35,24 +51,12 @@ public class User {
         return key;
     }
 
-    public void setUsername(String username){
-        this.username = username;
-    }
-
-    public void setClearPassword(String clearPassword){
-        this.clearPassword = clearPassword;
-    }
-
-    public void setEncryptedPassword(String encryptedPassword){
-        this.encryptedPassword = encryptedPassword;
-    }
-
     public void setKey(String key){
         this.key = key;
     }
 
     private String encrypt(String clearPassword, String key) {
-        StringBuilder encrypted = new StringBuilder();
+        String encryptedPassword = "";
         int keyLength = key.length();
         int asciiStart = 33;
         int asciiEnd = 122;
@@ -64,13 +68,13 @@ public class User {
             int clearIndex = clearChar - asciiStart;
             int keyIndex = keyChar - asciiStart;
             char encryptedChar = (char) (asciiStart + (clearIndex + keyIndex) % range);
-            encrypted.append(encryptedChar);
+            encryptedPassword += encryptedChar;
         }
 
-        return encrypted.toString();
+        return encryptedPassword;
     }
 
     public String toString() {
-        return username + "\t" + encryptedPassword + "\t" + clearPassword + "\t" + key;
+        return getUsername() + "\t" + getEncryptedPassword() + "\t" + getClearPassword() + "\t" + getKey();
     }
 }
